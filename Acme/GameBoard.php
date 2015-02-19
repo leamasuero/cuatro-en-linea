@@ -19,7 +19,7 @@ class GameBoard {
             $this->board = $gameState['board'];
             $this->currentPlayer = $gameState['turn'];
             $this->gameOver = $gameState['gameOver'];
-//            dd($this->currentPlayer);
+            
         } else {
 
             $this->currentPlayer = '1';
