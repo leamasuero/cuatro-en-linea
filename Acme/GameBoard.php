@@ -7,6 +7,7 @@ class GameBoard {
     private $board;
     private $gameboardRepresentation;
     private $currentPlayer;
+    private $gameOver;
 
     public function __construct() {
         $this->gameboardRepresentation = storage_path() . '/boardgame';
@@ -17,10 +18,12 @@ class GameBoard {
 
             $this->board = $gameState['board'];
             $this->currentPlayer = $gameState['turn'];
+            $this->gameOver = $gameState['gameOver'];
 //            dd($this->currentPlayer);
         } else {
 
             $this->currentPlayer = '1';
+            $this->gameOver = false;
 
             $this->board = new \SplFixedArray(6);
 
@@ -28,6 +31,10 @@ class GameBoard {
                 $this->board[$i] = new \SplFixedArray(7);
             }
         }
+    }
+    
+    public function isGameOver(){
+        return $this->gameOver;
     }
 
     public function isColumFull($column) {
@@ -39,11 +46,62 @@ class GameBoard {
             if (empty($this->board[$row][$column])) {
                 $this->board[$row][$column] = $this->currentPlayer;
                 
+                $jugada = [
+                    'row' => $row,
+                    'column' => $column,
+                    'player' => $this->currentPlayer
+                ];
+                
                 $this->switchPlayer();
                 
-                return $row;
+                return $jugada;
             }
         }
+    }
+    
+    public function didPlayerWin($player){
+        foreach($this->board as $rowIndex => $row){
+            foreach($row as $columnIndex => $column){
+                
+                try {
+                    
+                    if ($this->testHorizontal($rowIndex, $columnIndex, $player)) {
+                        $this->gameOver = true;
+                        return true;
+                     }
+
+                     if ($this->testVertical($rowIndex, $columnIndex, $player)) {
+                         $this->gameOver = true;
+                         return true;
+                     }              
+                     
+                } catch (\RuntimeException $ex) {
+                    // out of range. 
+                }
+                
+ 
+            }
+        }
+        
+        return false;
+    }
+    
+    public function testHorizontal($rowIndex, $columnIndex, $player) {
+        return
+                $this->board[$rowIndex][$columnIndex] == $player     &&
+                $this->board[$rowIndex][$columnIndex + 1] == $player &&
+                $this->board[$rowIndex][$columnIndex + 2] == $player &&
+                $this->board[$rowIndex][$columnIndex + 3] == $player
+        ;
+    }
+    
+    public function testVertical($rowIndex, $columnIndex, $player) {
+        return
+                $this->board[$rowIndex][$columnIndex] == $player     &&
+                $this->board[$rowIndex + 1][$columnIndex] == $player &&
+                $this->board[$rowIndex + 2][$columnIndex] == $player &&
+                $this->board[$rowIndex + 3][$columnIndex] == $player
+        ;
     }
 
     public function isCurrentPlayer($player){
@@ -60,11 +118,10 @@ class GameBoard {
         } else {
             $this->currentPlayer = '1';
         }
-
     }
-
+    
     public function __destruct() {
-        $gameState = ['board' => $this->board, 'turn' => $this->currentPlayer];
+        $gameState = ['board' => $this->board, 'turn' => $this->currentPlayer, 'gameOver' => $this->gameOver];
         file_put_contents($this->gameboardRepresentation, serialize($gameState));
     }
 

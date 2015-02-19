@@ -3,6 +3,9 @@
 <style>
     td,th {
         border: 1px black solid;
+        width: 80px;
+        height: 80px;
+        text-align: center;
     }
 </style>
 

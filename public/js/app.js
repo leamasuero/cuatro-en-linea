@@ -3,6 +3,7 @@
     var Game = {
         
         init: function (config){
+            Game.config = config;
             Game.board = $(config.board);
             
             Game.board.on('click',config.addButton,this.addCoin);
@@ -15,9 +16,9 @@
             var channel = pusher.subscribe('game');
             channel.bind('newCoin', function(data) {
                 console.log(data);
-                console.log('td.row-'+data.row+'.column-'+data.column);
-                console.log(Game.board.find('td.row-'+data.row+'.column-'+data.column ))
-              Game.board.find('td.row-'+data.row+'.column-'+data.column ).text('leandro');
+//                console.log('td.row-'+data.row+'.column-'+data.column);
+//                console.log(Game.board.find('td.row-'+data.row+'.column-'+data.column ))
+              Game.board.find('td.row-'+data.row+'.column-'+data.column ).text(data.player);
             });            
             
         },
@@ -31,7 +32,13 @@
                 data: {player: Game.player, column: column},
                 dataType: 'json'
             }).done(function(data){
-                console.log(data)
+                console.log(data);
+                if(data.gameover == true){
+                    alert(data.message);
+                    Game.board.find(Game.config.addButton).off();
+                }
+            }).fail(function(data){
+                alert(data.responseJSON.message);
             });            
         }        
         
