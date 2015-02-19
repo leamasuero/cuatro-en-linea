@@ -1,0 +1,21 @@
+{
+  "name": "cuatro-en-linea",
+  "version": "0.0.0",
+  "homepage": "https://github.com/leamasuero/cuatro-en-linea",
+  "description": "fun",
+  "keywords": [
+    "fun"
+  ],
+  "authors": [
+    "leandro.masuero"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "jquery": "~2.1.3",
+    "pusher": "~2.2.4"
+  },
+  "install": {
+    "path": "public/js"
+  }
+}
