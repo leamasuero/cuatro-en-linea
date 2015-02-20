@@ -1,5 +1,10 @@
 @extends('layouts.public')
 
+
+@section('title')
+{{ $title }}
+@endsection
+
 <style>
     td,th {
         border: 1px black solid;
@@ -57,3 +62,12 @@
 </table>
 
 @stop('content')
+
+<script>
+    var App = {
+        endpoints: {
+            addCoin: '{{ route('addCoin') }}',
+        },
+        player: {{ $player }}
+    };
+</script>

@@ -11,6 +11,8 @@
   |
  */
 
+Route::get('/',['as'=>'home','uses'=> 'BoardController@home']);
+
 Route::get('/games/{player}', [
     'as' => 'board', 'uses' => 'BoardController@play'
 ])->where('player', '[12]');

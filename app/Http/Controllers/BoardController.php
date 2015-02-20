@@ -16,9 +16,14 @@ class BoardController extends Controller {
         $this->board = $this->gameBoard->getBoard();
         $this->pusher = \App::make('Pusher');
     }
+    
+    public function home(){
+        $title = 'Connect four';
+        return view('home',compact('title'));
+    }
 
     public function play($player) {
-        $title = "Welcome player {$player}";
+        $title = "Player {$player}";
 
         $board = $this->board;
 

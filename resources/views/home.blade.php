@@ -1,17 +1,15 @@
-@extends('app')
+@extends('layouts.public')
 
 @section('content')
-<div class="container">
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
-			<div class="panel panel-default">
-				<div class="panel-heading">Home</div>
+<h1>
+    Choose your side!
+</h1>
 
-				<div class="panel-body">
-					You are logged in!
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<h2>
+    <a href="{{ route('board',['player'=> '1']) }}">Player 1</a>
+</h2>
+
+<h2>
+    <a href="{{ route('board',['player'=> '2']) }}">Player 2</a>
+</h2>
 @endsection

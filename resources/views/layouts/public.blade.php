@@ -17,14 +17,7 @@
     <div class="container main-content">
         @yield('content')
     </div>
-    <script>
-        var App = {
-            endpoints: {
-                addCoin: '{{ route('addCoin') }}',
-            },
-            player: {{ $player }}
-        };
-    </script>
+
     <script src="<?php echo asset('js/jquery/jquery.js'); ?>"></script>
     <script src="<?php echo asset('js/pusher/pusher.js'); ?>"></script>
     <script src="<?php echo asset('js/app.js'); ?>"></script>    
