@@ -8,13 +8,15 @@ class GameBoard {
     private $gameboardRepresentation;
     private $currentPlayer;
     private $gameOver;
+    private $disk;
 
     public function __construct() {
-        $this->gameboardRepresentation = storage_path() . '/boardgame';
+        $this->gameboardRepresentation = 'boardgame';
+        
+        $this->disk = \Storage::disk('local');
 
-
-        if (file_exists($this->gameboardRepresentation)) {
-            $gameState = unserialize(file_get_contents($this->gameboardRepresentation));
+        if ($this->disk->exists($this->gameboardRepresentation)) {
+            $gameState = unserialize($this->disk->get($this->gameboardRepresentation));
 
             $this->board = $gameState['board'];
             $this->currentPlayer = $gameState['turn'];
@@ -35,6 +37,10 @@ class GameBoard {
     
     public function isGameOver(){
         return $this->gameOver;
+    }
+    
+    public function reset(){
+        $this->disk->delete($this->gameboardRepresentation);
     }
 
     public function isColumFull($column) {
@@ -122,7 +128,7 @@ class GameBoard {
     
     public function __destruct() {
         $gameState = ['board' => $this->board, 'turn' => $this->currentPlayer, 'gameOver' => $this->gameOver];
-        file_put_contents($this->gameboardRepresentation, serialize($gameState));
+        $this->disk->put($this->gameboardRepresentation, serialize($gameState));
     }
 
 }

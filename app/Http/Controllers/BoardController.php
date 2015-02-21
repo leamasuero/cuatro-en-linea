@@ -15,6 +15,8 @@ class BoardController extends Controller {
         $this->gameBoard = new \Acme\GameBoard();
         $this->board = $this->gameBoard->getBoard();
         $this->pusher = \App::make('Pusher');
+        
+        $this->middleware('guest');        
     }
     
     public function home(){
@@ -59,13 +61,15 @@ class BoardController extends Controller {
         $this->pusher->trigger('game', 'newCoin', $jugada);
         
         if($this->gameBoard->didPlayerWin($jugada['player'])){
+            
             return \Response::json(
                             [
                             'message' => "Player {$jugada['player']} won. Game over.",
                             'jugada' => $jugada,
                             'gameover' => true,
                             ]
-                            , IlluminateResponse::HTTP_ACCEPTED);             
+                            , IlluminateResponse::HTTP_ACCEPTED);
+                            
         }
         
         return \Response::json(
@@ -75,6 +79,10 @@ class BoardController extends Controller {
                         'gameover' => false
                         ]
                         , IlluminateResponse::HTTP_ACCEPTED);          
+    }
+    
+    public function reset(){
+        $this->gameBoard->reset();
     }
 
 }
