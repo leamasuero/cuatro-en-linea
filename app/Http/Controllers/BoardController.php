@@ -16,7 +16,7 @@ class BoardController extends Controller {
         $this->board = $this->gameBoard->getBoard();
         $this->pusher = \App::make('Pusher');
         
-        $this->middleware('guest');        
+        $this->middleware('guest');
     }
     
     public function home(){
@@ -63,6 +63,7 @@ class BoardController extends Controller {
         if($this->gameBoard->didPlayerWin($jugada['player'])){
             
             $this->pusher->trigger('game','reset',[]);
+            $this->gameBoard->reset();
             
             return \Response::json(
                             [

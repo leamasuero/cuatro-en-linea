@@ -40,7 +40,8 @@ class GameBoard {
     }
     
     public function reset(){
-        $this->disk->delete($this->gameboardRepresentation);
+//        unlink(storage_path()."/app/{$this->gameboardRepresentation}");
+        return $this->disk->delete($this->gameboardRepresentation);
     }
 
     public function isColumFull($column) {
@@ -127,8 +128,10 @@ class GameBoard {
     }
     
     public function __destruct() {
-        $gameState = ['board' => $this->board, 'turn' => $this->currentPlayer, 'gameOver' => $this->gameOver];
-        $this->disk->put($this->gameboardRepresentation, serialize($gameState));
+        if (!$this->gameOver) {
+            $gameState = ['board' => $this->board, 'turn' => $this->currentPlayer, 'gameOver' => $this->gameOver];
+            $this->disk->put($this->gameboardRepresentation, serialize($gameState));
+        }
     }
 
 }
