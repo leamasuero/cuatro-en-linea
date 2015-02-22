@@ -11,16 +11,21 @@
             Game.endpoints = config.endpoints;
             Game.player = config.player;
             
-
             var pusher = new Pusher('6bb55fa9d449706bb5de');
             var channel = pusher.subscribe('game');
-            channel.bind('newCoin', function(data) {
-                console.log(data);
-//                console.log('td.row-'+data.row+'.column-'+data.column);
-//                console.log(Game.board.find('td.row-'+data.row+'.column-'+data.column ))
-              Game.board.find('td.row-'+data.row+'.column-'+data.column ).text(data.player);
-            });            
+            channel.bind('newCoin', this.insertCoin);            
+            channel.bind('reset', this.reset);
             
+            
+        },
+        
+        insertCoin: function (data){
+                console.log(data);
+                Game.board.find('td.row-'+data.row+'.column-'+data.column ).html(Game.yieldCoin(data.player));            
+        },
+        
+        yieldCoin: function(player){
+          return $(Game.config.coin,{text: player,class:'coin'});
         },
         
         addCoin: function (e){
@@ -40,12 +45,20 @@
             }).fail(function(data){
                 alert(data.responseJSON.message);
             });            
-        }        
+        },
         
-    }
+        reset: function (){
+            console.log('Reset the game!');
+            Game.board.find('tbody td').each(function(index,value){
+                this.innerHTML = '';
+            });
+        }
+        
+    };
     
     Game.init({
         board: 'table',
+        coin: '<div></div>',
         addButton: 'th button',
         endpoints: window.App.endpoints,
         player: window.App.player

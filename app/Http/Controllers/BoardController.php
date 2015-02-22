@@ -62,6 +62,8 @@ class BoardController extends Controller {
         
         if($this->gameBoard->didPlayerWin($jugada['player'])){
             
+            $this->pusher->trigger('game','reset',[]);
+            
             return \Response::json(
                             [
                             'message' => "Player {$jugada['player']} won. Game over.",
@@ -83,6 +85,7 @@ class BoardController extends Controller {
     
     public function reset(){
         $this->gameBoard->reset();
+        $this->pusher->trigger('game', 'reset');        
     }
 
 }
