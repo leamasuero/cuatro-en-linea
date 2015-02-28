@@ -25,7 +25,7 @@
         },
         
         yieldCoin: function(player){
-          return $(Game.config.coin,{text: player,class:'coin'});
+          return $(Game.config.coin,{text: player,class:'coin player' + player});
         },
         
         addCoin: function (e){

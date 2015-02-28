@@ -22,5 +22,7 @@
     <script src="<?php echo asset('js/pusher/pusher.js'); ?>"></script>
     <script src="<?php echo asset('js/app.js'); ?>"></script>    
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/board.css') }}"/>
 </body>
 </html>

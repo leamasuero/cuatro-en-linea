@@ -5,17 +5,6 @@
 {{ $title }}
 @endsection
 
-<style>
-    td,th {
-        border: 1px black solid;
-        width: 80px;
-        height: 80px;
-        text-align: center;
-    }
-</style>
-
-
-
 @section('content')
 <h1>Welcome Player {{ $player }}</h1>
 
@@ -51,7 +40,7 @@
     <tr>
         @foreach($row as $columnIndex => $value)
         <td class="row-{{ $rowIndex }} column-{{ $columnIndex }}">
-            <div>{{ $value }}</div>
+            <div class="coin player{{$value}}">{{ $value }}</div>
         </td>
         @endforeach
 
