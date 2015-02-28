@@ -82,6 +82,11 @@ class GameBoard {
                          return true;
                      }              
                      
+                     if ($this->testDiagonalUpToDown($rowIndex, $columnIndex, $player)) {
+                         $this->gameOver = true;
+                         return true;
+                     }              
+                     
                 } catch (\RuntimeException $ex) {
                     // out of range. 
                 }
@@ -93,6 +98,25 @@ class GameBoard {
         return false;
     }
     
+    public function testDiagonalUpToDown($rowIndex, $columnIndex, $player) {
+        return
+                $this->board[$rowIndex][$columnIndex] == $player     &&
+                $this->board[$rowIndex + 1][$columnIndex + 1] == $player &&
+                $this->board[$rowIndex + 2][$columnIndex + 2] == $player &&
+                $this->board[$rowIndex + 3][$columnIndex + 3] == $player
+        ;        
+    }
+    
+    public function testDiagonalDownToUp($rowIndex, $columnIndex, $player) {
+        return
+                $this->board[$rowIndex][$columnIndex] == $player     &&
+                $this->board[$rowIndex - 1][$columnIndex + 1] == $player &&
+                $this->board[$rowIndex - 2][$columnIndex + 2] == $player &&
+                $this->board[$rowIndex - 3][$columnIndex + 3] == $player
+        ;        
+    }
+
+
     public function testHorizontal($rowIndex, $columnIndex, $player) {
         return
                 $this->board[$rowIndex][$columnIndex] == $player     &&

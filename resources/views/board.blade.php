@@ -6,7 +6,11 @@
 @endsection
 
 @section('content')
-<h1>Welcome Player {{ $player }}</h1>
+<h1>
+    Welcome Player {{ $player }}
+    -
+    <div class="coin player{{ $player }}" style="display: inline-block;vertical-align: middle;"></div>
+</h1>
 
 <table>
     <thead>
